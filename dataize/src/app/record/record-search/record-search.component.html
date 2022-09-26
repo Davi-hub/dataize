@@ -1,0 +1,25 @@
+<div class="container">
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" id="item3">
+    <mat-form-field appearance="fill">
+      <mat-label>Search</mat-label>
+      <input type="text" matInput formControlName="search" (keydown.enter)="onSearch()" #search>
+      <button
+        *ngIf="search.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="search.value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button
+        *ngIf="search.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+</div>
+

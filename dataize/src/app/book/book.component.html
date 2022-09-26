@@ -1,0 +1,8 @@
+<div *ngIf="demo">
+  <app-book-search></app-book-search>
+  <app-result-table
+  item = "book"
+  [displayedColumns]="bookDisplayedColumns"
+  ></app-result-table>
+  <app-book-form></app-book-form>
+</div>

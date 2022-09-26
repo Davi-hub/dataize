@@ -1,0 +1,23 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.container-four-item {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  column-gap: 0.3rem
+}
+
+.container-two-item {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.3rem;
+}
+
+a, button {
+  width: fit-content;
+  margin: 0 0.5rem;
+}

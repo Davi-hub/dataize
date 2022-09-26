@@ -1,0 +1,42 @@
+<div class="container">
+  <form [formGroup]="isbnForm" (ngSubmit)="onIsbn()" id="item1">
+    <mat-form-field appearance="fill">
+      <mat-label>ISBN Search</mat-label>
+      <input type="text" matInput placeholder="##########" formControlName="isbn" [(ngModel)]="isbnValue" (keydown.enter)="onIsbn()">
+      <mat-error>Required!</mat-error>
+      <button *ngIf="isbnValue" matSuffix mat-icon-button aria-label="Clear" (click)="isbnValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button *ngIf="isbnValue.length > 9" matSuffix mat-icon-button aria-label="Clear" type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+
+  <form [formGroup]="lccnForm" (ngSubmit)="onLccn()" id="item2">
+    <mat-form-field appearance="fill" id="gb-search">
+      <mat-label>LCCN Search</mat-label>
+      <input type="text" matInput placeholder="########" formControlName="lccn" [(ngModel)]="lccnValue">
+      <mat-error>Required!</mat-error>
+      <button *ngIf="lccnValue" matSuffix mat-icon-button aria-label="Clear" (click)="lccnValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button *ngIf="lccnValue.length > 4" matSuffix mat-icon-button aria-label="Clear" type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+
+  <form [formGroup]="googleBooksForm" (ngSubmit)="onGoogleBooks()" id="item3">
+    <mat-form-field appearance="fill">
+      <mat-label>Google Books Search</mat-label>
+      <input type="text" matInput formControlName="googleBooks" [(ngModel)]="googleBooksValue">
+      <button *ngIf="googleBooksValue" matSuffix mat-icon-button aria-label="Clear" (click)="googleBooksValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button *ngIf="googleBooksValue.length > 4" matSuffix mat-icon-button aria-label="Clear" type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+</div>

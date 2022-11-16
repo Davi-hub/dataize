@@ -1,0 +1,185 @@
+<form [formGroup]="bookForm" (ngSubmit)="onBookForm()">
+
+  <div class="container-two-item">
+    <mat-form-field appearance="fill" id="title">
+      <mat-label>Title</mat-label>
+      <input type="text" matInput formControlName="title" #title>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="title.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('title', title)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button type="button" *ngIf="title.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="onSearchInTitle(title.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="subtitle">
+      <mat-label>Subtitle</mat-label>
+      <input type="text" matInput formControlName="subtitle" #subtitle>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="subtitle.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('subtitle', subtitle)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="container-two-item">
+    <mat-form-field appearance="fill" id="authors">
+      <mat-label>Authors</mat-label>
+      <input type="text" matInput formControlName="authors" #authors>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="authors.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('authors', authors)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button type="button" *ngIf="authors.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="onSearchInAuthor(authors.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="publishers">
+      <mat-label>Publishers</mat-label>
+      <input type="text" matInput formControlName="publishers" #publishers [matAutocomplete]="autoPub">
+      <button type="button" *ngIf="publishers.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('publishers', publishers)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #autoPub="matAutocomplete">
+        <mat-option *ngFor="let publishersOption of filteredPublishersOptions | async" [value]="publishersOption">
+          {{publishersOption}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="container-four-item">
+    <mat-form-field appearance="fill">
+      <mat-label>Year</mat-label>
+      <input type="number" maxlength="4" matInput formControlName="publish_date" #publish_date>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="publish_date.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('publish_date', publish_date)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="country">
+      <mat-label>Country/Region of Manufacture</mat-label>
+      <input type="text" matInput formControlName="country" #country [matAutocomplete]="auto">
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="country.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('country', country)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let countryOption of filteredCountryOptions | async" [value]="countryOption">
+          {{countryOption}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="isbn_10">
+      <mat-label>ISBN</mat-label>
+      <input type="text" matInput formControlName="isbn_10" #isbn_10>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="isbn_10.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('isbn_10', isbn_10)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="language">
+      <mat-label>Language</mat-label>
+      <input type="text" matInput formControlName="language" #language [matAutocomplete]="autoLang">
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="language.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('language', language)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #autoLang="matAutocomplete">
+        <mat-option *ngFor="let langOption of filteredLangOptions | async" [value]="langOption">
+          {{langOption}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="container-four-item">
+    <mat-form-field appearance="fill" id="format">
+      <mat-label>Format</mat-label>
+      <mat-select name="format" id="format" matNativeControl required formControlName="format">
+        <mat-option value="Hardcover">Hardcover</mat-option>
+        <mat-option value="Paperback">Paperback</mat-option>
+        <mat-option value="Leather Bound">Leather Bound</mat-option>
+        <mat-option value="Faux Leather Bound">Faux Leather Bound</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="condition">
+      <mat-label>Condition</mat-label>
+      <mat-select name="condition" id="condition" matNativeControl required formControlName="condition">
+        <mat-option *ngFor="let condOption of condOptions" [value]="condOption">
+          {{condOption}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="features">
+      <mat-label>Features</mat-label>
+      <mat-select name="features" id="features" matNativeControl formControlName="features">
+        <mat-option value="">none</mat-option>
+        <mat-option value="Box Set">Box Set</mat-option>
+        <mat-option value="Braille">Braille</mat-option>
+        <mat-option value="Dust Jacket">Dust Jacket</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="fill" id="numberOfPics">
+      <mat-label>Number of Pictures</mat-label>
+      <input type="number" matInput formControlName="numberOfPics" #numberOfPics [matAutocomplete]="autoNum">
+      <mat-error>Required!</mat-error>
+      <mat-autocomplete autoActiveFirstOption #autoNum="matAutocomplete">
+        <mat-option *ngFor="let num of numOptions" [value]="num">
+          {{num}}
+        </mat-option>
+      </mat-autocomplete>
+      <button type="button" *ngIf="numberOfPics.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('numberOfPics', numberOfPics)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field> -->
+    <div id="others">
+      <button type="button" mat-raised-button (click)="onNumbOfPictures()">
+        <mat-icon id="others-mat-icon">add_photo_alternate</mat-icon>{{bookData.numberOfPics ?
+        bookData.numberOfPics.length : 0}}
+      </button>
+      <mat-checkbox formControlName="edition" labelPosition="before">First edition?</mat-checkbox>
+      <mat-checkbox formControlName="inscribed" labelPosition="before">Inscribed?</mat-checkbox>
+      <mat-checkbox formControlName="signed" labelPosition="before">Signed?</mat-checkbox>
+    </div>
+  </div>
+
+  <div class="bottom-line">
+    <div class="info-container">
+      <span><b>Filename: </b>{{fileName}}</span>
+      <span>
+        <b>Path to Pictures: </b>
+        {{filePath}}
+        <button mat-button (click)="onCreateFileDialog(false)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </span>
+    </div>
+    <div class="button-container">
+      <button type="button" mat-raised-button color="warn" (click)="onClear()">Clear</button>
+      <button type="button" mat-raised-button color="accent" (click)="onCreateFileDialog(true)">Create</button>
+      <button type="button" mat-raised-button (click)="onOpenFileDialog()">Files</button>
+      <button type="submit" mat-raised-button color="primary"
+        [innerText]="selectedItem ? 'Edit Book' : 'Add Book'"></button>
+    </div>
+  </div>
+</form>

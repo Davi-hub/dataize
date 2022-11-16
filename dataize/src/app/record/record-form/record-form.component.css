@@ -1,0 +1,41 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem;
+}
+
+div {
+  margin-bottom: 1rem;
+}
+
+.chip-list {
+  width: 100%;
+}
+
+.container-two-item {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.3rem;
+}
+
+.container-three-item {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 0.3rem
+}
+
+.container-four-item {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  column-gap: 0.3rem
+}
+
+a, button {
+  width: fit-content;
+  margin: 0 0.5rem;
+}
+
+mat-chip {
+  background-color: white;
+}

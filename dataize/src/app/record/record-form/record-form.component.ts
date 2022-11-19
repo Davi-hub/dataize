@@ -7,9 +7,10 @@ import { ExcelService } from 'src/app/shared/services/excel.service';
 import { environment } from 'src/environments/environment';
 import { RecordDataService } from '../services/record-data.service';
 import { RecordFormService } from '../services/record-form.service';
-import { RecordFormDialogComponent } from './record-form-dialog.component';
 import { genresList } from './genres';
 import { countryList } from '../../shared/countryList';
+import { CreateDialogComponent } from 'src/app/shared/create-dialog/create-dialog.component';
+import { FilesDialogComponent } from 'src/app/shared/files-dialog/files-dialog.component';
 
 @Component({
   selector: 'app-record-form',
@@ -23,8 +24,11 @@ export class RecordFormComponent implements OnInit {
   countryOptions: string[] = [...countryList];
   filteredCountryOptions!: Observable<string[]>;
   showTable = false;
+  fileName = "none";
+  filePath = "none";
+  pictures = [];
+  selectedItem: number = NaN;
   rawText!: string;
-  fileName!: any;
   formatHint!: string;
   countryHint!: string;
   speedHint!: string;
@@ -104,26 +108,42 @@ export class RecordFormComponent implements OnInit {
     this.recordFormService.clearForm(this.recordForm);
   }
 
-  onCreateFileDialog() {
-    const dialRef = this.dialog.open(RecordFormDialogComponent);
+  onCreateFileDialog(create: boolean) {
+    const dialRef = this.dialog.open(CreateDialogComponent, {data: {create: create}});
     dialRef.afterClosed().subscribe(data => {
-      this.fileName = data.fileName;
-      let createProm = new Promise(() => {
-        this.excelService.createFile('record', this.fileName, 'fasdsdsv');
-      });
-      createProm.then(() => this.excelService.getFileInfo('record'));
+      if (data) {
+        if (create) {
+          this.excelService.createFile("record", data.fileName, data.picturesPath);
+        }
+      }
     });
   }
 
   onOpenFileDialog() {
-    const dialRef = this.dialog.open(RecordFormDialogComponent);
-    dialRef.afterClosed().subscribe(data => {
-      if (data) {
-        let openProm = new Promise(() => {
-          this.excelService.openFile('record', data.fileName);
-        });
-        openProm.then(() => this.excelService.getFileInfo('record'))
-      }
+    this.excelService.getFileNames('record').pipe(
+      map(
+        (data: string[] | any) => {
+          if (data) {
+            for (let i = 0; i < data.length; i++) {
+              data[i] = data[i].split('.json')[0];
+            }
+          }
+          return data;
+        }
+      )
+    ).subscribe((data: any) => {
+      const dialRef = this.dialog.open(FilesDialogComponent, { data: data });
+      dialRef.afterClosed().subscribe(
+        (data: {file: string, action: string}) => {
+        if (data.file && data.action === "open") {
+          this.excelService.openFile("record", data.file);
+          return;
+        } else if (data.file && data.action === 'downloadXlsx') {
+          this.download('downloadcsvxlsx', data.file)
+        } else if (data.file && data.action === 'downloadCsv') {
+          this.download('downloadcsvxlsx', data.file +'.csv')
+        }
+      });
     });
   }
 

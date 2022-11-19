@@ -9,16 +9,12 @@ import { AppComponent } from './app.component';
 import { BookComponent } from './book/book.component';
 import { BookFormComponent } from './book/book-form/book-form.component';
 import { BookSearchComponent } from './book/book-search/book-search.component';
-import { BookFormDialogComponent } from './book/book-form/book-form-dialog.component';
 
 import { RecordComponent } from './record/record.component';
 import { RecordFormComponent } from './record/record-form/record-form.component';
-import { RecordFormDialogComponent } from './record/record-form/record-form-dialog.component';
 import { RecordSearchComponent } from './record/record-search/record-search.component';
 // import { DownloadDirective } from './shared/directives/download.directive';
 import { ResultTableComponent } from './shared/result-table/result-table.component';
-import { DataTableComponent } from './shared/data-table/data-table.component';
-import { CreateDialogComponent } from './book/book-form/create-dialog/create-dialog.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,26 +33,28 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PicturesDialogComponent } from './shared/pictures-dialog/pictures-dialog.component';
+import { CreateDialogComponent } from './shared/create-dialog/create-dialog.component';
+import { FilesDialogComponent } from './shared/files-dialog/files-dialog.component';
+import { BookListComponent } from './book/book-list/book-list.component';
+import { RecordListComponent } from './record/record-list/record-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // DownloadDirective,
     ResultTableComponent,
 
     BookComponent,
     BookFormComponent,
     BookSearchComponent,
-    BookFormDialogComponent,
+    CreateDialogComponent,
+    FilesDialogComponent,
+    PicturesDialogComponent,
 
     RecordComponent,
     RecordFormComponent,
     RecordSearchComponent,
-    RecordFormDialogComponent,
-    DataTableComponent,
-    CreateDialogComponent,
-    PicturesDialogComponent,
-
+    BookListComponent,
+    RecordListComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +82,6 @@ import { PicturesDialogComponent } from './shared/pictures-dialog/pictures-dialo
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [BookFormDialogComponent, RecordFormDialogComponent]
+  entryComponents: []
 })
 export class AppModule { }

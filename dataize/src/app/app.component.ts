@@ -1,20 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ExpiredService } from './shared/services/expired.service';
+import { Component } from "@angular/core";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'dataize';
-  demo!: boolean;
 
-  constructor(private expiredService: ExpiredService) {
+  constructor() {}
 
-  }
-
-  ngOnInit(): void {
-    this.demo = this.expiredService.isExpired();
-  }
 }

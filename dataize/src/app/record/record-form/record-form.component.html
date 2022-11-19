@@ -1,7 +1,4 @@
-<form
-  [formGroup]="recordForm"
-  (ngSubmit)="onRecordForm()"
-  (keydown.enter)="$event.preventDefault()">
+<form [formGroup]="recordForm" (ngSubmit)="onRecordForm()" (keydown.enter)="$event.preventDefault()">
 
   <div class="container-two-item">
     <mat-form-field appearance="fill" id="artist">
@@ -129,7 +126,7 @@
 
     <mat-form-field appearance="fill" id="format">
       <mat-label>Type</mat-label>
-      <mat-select formControlName="format" >
+      <mat-select formControlName="format">
         <mat-option value="">none</mat-option>
         <mat-option value="LP">LP</mat-option>
         <mat-option value="Double LP">Double LP</mat-option>
@@ -162,17 +159,24 @@
         <mat-option value="78 RPM">78 RPM</mat-option>
       </mat-select>
     </mat-form-field>
-    <div>
-      <!-- <button type="button" mat-raised-button (click)="download('downloadcsv', fileName)">{{fileName}}.csv<mat-icon>file_download</mat-icon></button>
-      <button type="button" mat-raised-button (click)="download('downloadxlsx', fileName)">{{fileName}}.xlsx<mat-icon>file_download</mat-icon></button>
-      <button type="button" mat-raised-button (click)="download('downloadtemplate', 'record_template')">xlsx template<mat-icon>file_download</mat-icon></button> -->
-      <button type="button" mat-raised-button (click)="download('downloadcsvxlsx', fileName+'.csv')">{{fileName}}.csv<mat-icon>file_download</mat-icon></button>
-      <button type="button" mat-raised-button (click)="download('downloadcsvxlsx', fileName+'.xlsx')">{{fileName}}.xlsx<mat-icon>file_download</mat-icon></button>
-      <button type="button" mat-raised-button (click)="download('downloadtemplate',fileName+'.xlsx')">xlsx template<mat-icon>file_download</mat-icon></button>
+  </div>
+  <div class="bottom-line">
+    <div class="info-container">
+      <span><b>Filename: </b>{{fileName}}</span>
+      <span>
+        <b>Path to Pictures: </b>
+        {{filePath}}
+        <button mat-button (click)="onCreateFileDialog(false)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </span>
+    </div>
+    <div class="button-container">
       <button type="button" mat-raised-button color="warn" (click)="onClear()">Clear</button>
-      <button type="button" mat-raised-button color="accent" (click)="onCreateFileDialog()">Create</button>
-      <button type="button" mat-raised-button (click)="onOpenFileDialog()">Open</button>
-      <button type="submit" mat-raised-button color="primary">Add Record</button>
+      <button type="button" mat-raised-button color="accent" (click)="onCreateFileDialog(true)">Create</button>
+      <button type="button" mat-raised-button (click)="onOpenFileDialog()">Files</button>
+      <button type="submit" mat-raised-button color="primary"
+        [innerText]="selectedItem ? 'Edit Record' : 'Add Record'"></button>
     </div>
   </div>
 </form>

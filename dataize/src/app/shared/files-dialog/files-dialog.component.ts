@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BookFormComponent } from './book-form.component';
+import { BookFormComponent } from 'src/app/book/book-form/book-form.component';
 
 @Component({
-  selector: 'app-book-form-dialog',
-  templateUrl: './book-form-dialog.component.html',
-  styleUrls: ['./book-form-dialog.component.css']
+  selector: 'app-files-dialog',
+  templateUrl: './files-dialog.component.html',
+  styleUrls: ['./files-dialog.component.css']
 })
-export class BookFormDialogComponent implements OnInit {
+export class FilesDialogComponent implements OnInit {
+
   files!: string[];
   selectedFile!: string;
 

@@ -1,0 +1,146 @@
+ul {
+  width: 100%;
+  margin: auto;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  width: 98%;
+  margin: auto;
+  cursor: pointer;
+}
+
+#d1 {
+  width: 5rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d2 {
+  width: 2rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d3 {
+  width: 5rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d4 {
+  width: 4rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d5 {
+  width: 6rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d6 {
+  width: 14rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d7 {
+  width: 14rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d8 {
+  width: 10rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d9 {
+  width: 8rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d10 {
+  width: 4rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d11 {
+  width: 5rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d12 {
+  width: 6rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d13 {
+  width: 5rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d14 {
+  width: 3rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d15 {
+  width: 2.5rem;
+  background-color: rgb(188, 188, 188);
+}
+
+#d16 {
+  width: 2.5rem;
+  background-color: rgb(224, 224, 224);
+}
+
+#d17 {
+  width: 2.5rem;
+  background-color: rgb(188, 188, 188);
+}
+
+.example-card {
+  width: 98%;
+  margin-bottom: 8px;
+}
+
+mat-card {
+  display: flex;
+  padding: 5px;
+  margin: auto;
+}
+
+.no {
+  font-size: 24px;
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+}
+
+.in-mat-card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.inner-mat-car-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inner-mat-card {
+  width: fit-content;
+  padding: 5px;
+  margin: 5px;
+}
+
+b {
+  margin-right: 0.25rem;
+}
+
+mat-card-actions {
+  margin-right: 0.5rem;
+}

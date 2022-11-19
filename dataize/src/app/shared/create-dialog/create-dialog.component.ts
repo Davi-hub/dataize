@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BookFormComponent } from '../book-form.component';
+import { BookFormComponent } from 'src/app/book/book-form/book-form.component';
 
 @Component({
   selector: 'app-create-dialog',
@@ -9,6 +9,7 @@ import { BookFormComponent } from '../book-form.component';
   styleUrls: ['./create-dialog.component.css']
 })
 export class CreateDialogComponent implements OnInit {
+
   create = false;
   f!: FormGroup
 
@@ -27,5 +28,4 @@ export class CreateDialogComponent implements OnInit {
       this.f.addControl('fileName', new FormControl('', Validators.required));
     }
   }
-
 }

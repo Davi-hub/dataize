@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpiredService } from '../shared/services/expired.service';
 
 @Component({
   selector: 'app-book',

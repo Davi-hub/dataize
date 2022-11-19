@@ -8,11 +8,11 @@ import { ExcelService } from 'src/app/shared/services/excel.service';
 import { environment } from 'src/environments/environment';
 import { BookDataService } from '../services/book-data.service';
 import { BookFormService } from '../services/book-form.service';
-import { BookFormDialogComponent } from './book-form-dialog.component';
 import { countryList } from '../../shared/countryList';
 import { publishers } from "./publishers";
-import { CreateDialogComponent } from './create-dialog/create-dialog.component';
+import { CreateDialogComponent } from '../../shared/create-dialog/create-dialog.component';
 import { PicturesDialogComponent } from 'src/app/shared/pictures-dialog/pictures-dialog.component';
+import { FilesDialogComponent } from 'src/app/shared/files-dialog/files-dialog.component';
 
 
 @Component({
@@ -177,7 +177,7 @@ export class BookFormComponent implements OnInit {
         }
       )
     ).subscribe((data: any) => {
-      const dialRef = this.dialog.open(BookFormDialogComponent, { data: data });
+      const dialRef = this.dialog.open(FilesDialogComponent, { data: data });
       dialRef.afterClosed().subscribe(
         (data: {file: string, action: string}) => {
         if (data.file && data.action === "open") {

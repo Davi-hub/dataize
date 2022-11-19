@@ -1,6 +1,6 @@
 <app-book-search></app-book-search>
 <app-result-table item="book" [displayedColumns]="bookDisplayedColumns"></app-result-table>
-<app-data-table [target]="resultTable"></app-data-table>
+<app-book-list [target]="resultTable"></app-book-list>
 <div #resultTable>
   <app-book-form></app-book-form>
 </div>

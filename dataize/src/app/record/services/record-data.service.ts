@@ -21,7 +21,7 @@ export class RecordDataService {
     this.http.get(
       'https://api.discogs.com/database/search?q=' +
       input +
-      '&key=GQXBeMSKWOkLQlvJlxnU&secret=CtzDXWobNyVRyDeLWrbztUdkuzcgSeAN&' +
+      '&key=' +
       'page=1&per_page=10')
       .pipe(map((data: any) => {
         let results = data.results;

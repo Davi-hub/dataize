@@ -25,9 +25,9 @@ div {
   column-gap: 0.3rem
 }
 
-.container-four-item {
+.container-six-item {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: 8rem 8rem 16rem 8rem 8rem auto;
   column-gap: 0.3rem
 }
 
@@ -53,3 +53,7 @@ span {
   display: flex;
   justify-content: space-between;
 }
+
+/* #pics-input {
+  display: none;
+} */

@@ -17,18 +17,18 @@ export class RecordListComponent implements OnInit {
   path = "";
 
   constructor(
-    private bookDataService: RecordDataService,
+    private recordDataService: RecordDataService,
     private excelService: ExcelService
   ) { }
 
   ngOnInit(): void {
     this.openFile();
     this.excelService.forFileInfo('record').subscribe((data: any) => this.path = data.path.split('dataize-main')[1]);
-    this.excelService.recordFileSubject.subscribe((data: any) => this.table = data);
+    this.excelService.recordFileSubject.subscribe((data: any) => this.table = data)
   }
 
   onClick(i: number) {
-    this.bookDataService.recordDataSubject.next(this.table[i]);
+    this.recordDataService.recordDataSubject.next(this.table[i]);
     this.target.scrollIntoView();
   }
 

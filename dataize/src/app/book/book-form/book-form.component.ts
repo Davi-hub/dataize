@@ -99,7 +99,6 @@ export class BookFormComponent implements OnInit {
       this.bookForm.get('inscribed')?.setValue(book.inscribed);
       this.bookForm.get('signed')?.setValue(book.signed);
 
-
       this.bookData = {
         no: book.no,
         isbn_13: book.isbn_13,

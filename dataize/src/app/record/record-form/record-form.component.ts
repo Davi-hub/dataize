@@ -11,6 +11,7 @@ import { genresList } from './genres';
 import { countryList } from '../../shared/countryList';
 import { CreateDialogComponent } from 'src/app/shared/create-dialog/create-dialog.component';
 import { FilesDialogComponent } from 'src/app/shared/files-dialog/files-dialog.component';
+import { PicturesDialogComponent } from 'src/app/shared/pictures-dialog/pictures-dialog.component';
 
 @Component({
   selector: 'app-record-form',
@@ -36,6 +37,8 @@ export class RecordFormComponent implements OnInit {
   pathXls = environment.nodeServer + "downloadxls";
   pathTemplate = environment.nodeServer + "downloadtemplate";
   genres = genresList;
+  recordData = {numberOfPics: [], no: NaN, title: ""};
+  items!: any;
 
   @ViewChild('genreInput') genreInput!: ElementRef<HTMLInputElement>;
 
@@ -48,14 +51,19 @@ export class RecordFormComponent implements OnInit {
 
   ngOnInit() {
     this.recordForm = new FormGroup(this.recordFormService.setRecordForm());
-    this.excelService.getFileInfo('record');
     let countryControl = this.recordForm.get('country');
     this.filteredCountryOptions = countryControl!.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '', this.countryOptions))
     );
+
+    this.excelService.getFileInfo('record');
     this.excelService.recordFileNameSubject.subscribe((data: string | any) => {
       this.fileName = data.fileName;
+      this.filePath = data.path.split('dataize-main')[1] + "/";
+      this.pictures = data.pictures;
+      console.log(this.filePath);
+      console.log(this.pictures);
     });
     this.recordDataService.cellDataSubject.subscribe((data: any) => {
       let key = Object.keys(data)[0];
@@ -66,8 +74,15 @@ export class RecordFormComponent implements OnInit {
       const record = response;
       this.formatHint = record.format_hint;
       this.countryHint = record.country;
-      this.recordForm.get("speed")?.setValue(this.setSpeed(record));
-      this.recordForm.get("format")?.setValue(this.setFormat(record));
+      this.recordData = {
+        no: record.no,
+        numberOfPics: record.numberOfPics,
+        title: record.title
+      }
+      this.selectedItem = record.no;
+
+      this.recordForm.get("speed")?.setValue(record.speed);
+      this.recordForm.get("format")?.setValue(record.format);
       this.recordForm.get("country")?.setValue(record.country);
       this.recordForm.get("genre")?.setValue(record.genre);
       this.recordForm.get("year")?.setValue(record.year);
@@ -75,14 +90,18 @@ export class RecordFormComponent implements OnInit {
       this.recordForm.get("label")?.setValue(record.label);
       this.recordForm.get("release_title")?.setValue(record.release_title);
       this.recordForm.get("barcode")?.setValue(record.barcode);
-      this.recordForm.get("composer")?.setValue('');
-      this.recordForm.get("conductor")?.setValue('');
+      this.recordForm.get("composer")?.setValue(record.composer);
+      this.recordForm.get("conductor")?.setValue(record.conductor);
+      this.recordData = {no: record.no, numberOfPics: record.numberOfPics, title: record.title}
     });
+
+    this.excelService.recordFileSubject.subscribe(data => {
+      this.items = data;
+    })
   }
 
   private _filter(value: string, options: string[]): string[] {
     const filterValue = value.toLowerCase();
-
     return options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
@@ -90,8 +109,10 @@ export class RecordFormComponent implements OnInit {
     if (this.recordForm.get("genre")?.value instanceof Array) {
       this.recordForm.get("genre")?.setValue(this.recordForm.get("genre")?.value[0])
     }
-    this.excelService.addRecord(this.recordForm, this.fileName);
+    this.excelService.addRecord(this.recordForm, this.recordData, this.fileName);
+    this.openFile();
     this.onClear();
+    window.scrollTo(0,0);
   }
 
   onSearchInTitle(value: string) {
@@ -109,7 +130,7 @@ export class RecordFormComponent implements OnInit {
   }
 
   onCreateFileDialog(create: boolean) {
-    const dialRef = this.dialog.open(CreateDialogComponent, {data: {create: create}});
+    const dialRef = this.dialog.open(CreateDialogComponent, { data: { create: create } });
     dialRef.afterClosed().subscribe(data => {
       if (data) {
         if (create) {
@@ -134,68 +155,41 @@ export class RecordFormComponent implements OnInit {
     ).subscribe((data: any) => {
       const dialRef = this.dialog.open(FilesDialogComponent, { data: data });
       dialRef.afterClosed().subscribe(
-        (data: {file: string, action: string}) => {
-        if (data.file && data.action === "open") {
-          this.excelService.openFile("record", data.file);
-          return;
-        } else if (data.file && data.action === 'downloadXlsx') {
-          this.download('downloadcsvxlsx', data.file)
-        } else if (data.file && data.action === 'downloadCsv') {
-          this.download('downloadcsvxlsx', data.file +'.csv')
-        }
-      });
+        (data: { file: string, action: string }) => {
+          if (data.file && data.action === "open") {
+            this.excelService.openFile("record", data.file);
+            return;
+          } else if (data.file && data.action === 'downloadXlsx') {
+            this.download('downloadcsvxlsx', data.file)
+          } else if (data.file && data.action === 'downloadCsv') {
+            this.download('downloadcsvxlsx', data.file + '.csv')
+          }
+        });
     });
   }
 
   clearInput(formControllName: string, input: any) {
     this.recordForm.get(formControllName)?.setValue('');
     input.value = '';
+    this.selectedItem = NaN;
   }
 
-  setSpeed(record: any) {
-    for (let i = 0; i < record.format.length; i++) {
-      switch (record.format[i]) {
-        case '16 RPM':
-          return '16 RPM';
-
-        case '45 RPM':
-          return '45 RPM';
-
-        case '78 RPM':
-          return '78 RPM';
-      }
-    }
-    return '33 RPM';
-  }
-
-  setFormat(record: any) {
-    for (let i = 0; i < record.format.length; i++) {
-    if (record.format[i] === 'Box Set') {
-      return 'Box Set';
-    }
-    }
-    for (let i = 0; i < record.format.length; i++) {
-      switch (record.format[i]) {
-        case 'Single':
-          return 'Single';
-
-        case 'EP':
-          return 'EP';
-
-        case 'LP':
-          if (record.format_quantity === 2) {
-            return 'Double LP';
-          } else if (record.format_quantity === 3) {
-            return 'Triple LP';
-          } else {
-            return 'LP';
-          }
-      }
-    }
-    return 'LP';
-  }
-
-  download(url: string, fileName: string){
+  download(url: string, fileName: string) {
     this.excelService.download(url, 'record', fileName);
+  }
+
+  openFile() {
+    this.excelService.forFileInfo('record').subscribe((data: {fileName: string} | any) => {
+      console.log(data);
+      this.excelService.openFile('record', data.fileName);
+    })
+  }
+
+  onNumbOfPictures() {
+    const dialRef = this.dialog.open(
+      PicturesDialogComponent,
+      { data: {no: this.recordData.no, selectPictures: [...this.recordData.numberOfPics], path: this.filePath, pictures: this.pictures, items: this.items}}
+    );
+    dialRef.afterClosed().subscribe(selectedPictures => this.recordData.numberOfPics = selectedPictures);
   }
 }

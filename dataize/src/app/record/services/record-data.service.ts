@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { RecordData } from 'src/app/shared/record-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -147,7 +148,9 @@ export class RecordDataService {
       if (record.barcode.length > 1) {
         if (record.barcode[0]) {
           barcode = record.barcode[0];
-          for (let i = 1; i < record.barcode.length; i++) {
+          let j = record.barcode.length;
+          if (j > 6) j = 5;
+          for (let i = 1; i < j; i++) {
             barcode = barcode + "; " + record.barcode[i];
           }
         }
@@ -157,20 +160,68 @@ export class RecordDataService {
     artist = title.split(' - ')[0];
     release_title = title.split(' - ')[1];
 
-    const recordData = {
-      year: year,
-      title: title,
-      artist: artist,
-      release_title: release_title,
-      country: country,
-      format: format,
-      genre: genre,
-      label: label,
-      barcode: barcode,
-      format_quantity: format_quantity,
-      form: '=>'
-    }
+    const recordData: RecordData = new RecordData (
+      "",
+      [],
+      title,
+      barcode,
+      "",
+      artist,
+      "",
+      release_title,
+      this.setFormat(record),
+      genre,
+      label,
+      this.setSpeed(record),
+      year,
+      country,
+      '=>',
+      NaN
+    )
 
     return recordData;
+  }
+
+  setSpeed(record: any) {
+    for (let i = 0; i < record.format.length; i++) {
+      switch (record.format[i]) {
+        case '16 RPM':
+          return '16 RPM';
+
+        case '45 RPM':
+          return '45 RPM';
+
+        case '78 RPM':
+          return '78 RPM';
+      }
+    }
+    return '33 RPM';
+  }
+
+  setFormat(record: any) {
+    for (let i = 0; i < record.format.length; i++) {
+      if (record.format[i] === 'Box Set') {
+        return 'Box Set';
+      }
+    }
+    for (let i = 0; i < record.format.length; i++) {
+      switch (record.format[i]) {
+        case 'Single':
+          return 'Single';
+
+        case 'EP':
+          return 'EP';
+
+        case 'LP':
+          if (record.format_quantity === 2) {
+            return 'Double LP';
+          } else if (record.format_quantity === 3) {
+            return 'Triple LP';
+          } else {
+            return 'LP';
+          }
+      }
+    }
+    return 'LP';
   }
 }

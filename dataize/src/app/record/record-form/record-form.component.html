@@ -82,7 +82,14 @@
     </mat-form-field>
   </div>
 
-  <div class="container-four-item">
+  <div class="container-six-item">
+    <mat-form-field appearance="fill" id="button">
+      <mat-label>Pictures</mat-label>
+      <input type="text" matInput id="pics-input" readonly [value]="recordData.numberOfPics ? recordData.numberOfPics.length : 0">
+      <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="onNumbOfPictures()">
+        <mat-icon>add_photo_alternate</mat-icon>
+      </button>
+    </mat-form-field>
 
     <mat-form-field appearance="fill" id="year">
       <mat-label>Year</mat-label>
@@ -90,21 +97,6 @@
       <mat-error>Required!</mat-error>
       <button type="button" *ngIf="year.value !=''" matSuffix mat-icon-button aria-label="Clear"
         (click)="clearInput('year', year)">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" id="numberOfPics">
-      <mat-label>Number of Pictures</mat-label>
-      <input type="number" matInput formControlName="numberOfPics" #numberOfPics [matAutocomplete]="autoNum">
-      <mat-error>Required!</mat-error>
-      <mat-autocomplete autoActiveFirstOption #autoNum="matAutocomplete">
-        <mat-option *ngFor="let num of numOptions" [value]="num">
-          {{num}}
-        </mat-option>
-      </mat-autocomplete>
-      <button type="button" *ngIf="numberOfPics.value !=''" matSuffix mat-icon-button aria-label="Clear"
-        (click)="clearInput('numbernumberOfPics',numberOfPics)">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -137,18 +129,6 @@
       </mat-select>
       <mat-hint>{{formatHint}}</mat-hint>
     </mat-form-field>
-  </div>
-
-  <div class="container-two-item">
-    <mat-form-field appearance="fill">
-      <mat-label>Barcode</mat-label>
-      <input type="text" matInput formControlName="barcode" #barcode>
-      <mat-error>Required!</mat-error>
-      <button type="button" *ngIf="barcode.value !=''" matSuffix mat-icon-button aria-label="Clear"
-        (click)="clearInput('barcode', barcode)">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
     <mat-form-field appearance="fill" id="speed">
       <mat-label>speed</mat-label>
       <mat-select name="speed" id="speed" matNativeControl formControlName="speed">
@@ -159,6 +139,19 @@
         <mat-option value="78 RPM">78 RPM</mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Barcode</mat-label>
+      <input type="text" matInput formControlName="barcode" #barcode>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="barcode.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('barcode', barcode)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="container-two-item">
+
   </div>
   <div class="bottom-line">
     <div class="info-container">

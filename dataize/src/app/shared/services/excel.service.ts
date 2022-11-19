@@ -9,6 +9,7 @@ import { RecordDataService } from 'src/app/record/services/record-data.service';
 import { environment } from 'src/environments/environment';
 import { BookData } from '../book-data.model';
 import { PieceOfBookData } from '../pieceOfBookData.interface';
+import { RecordData } from '../record-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -118,7 +119,7 @@ export class ExcelService {
     await this.writeLine('book', line, fileName);
   }
 
-  async addRecord(bookForm: FormGroup, fileName: string) {
+  async addRecord(recordForm: FormGroup, data: {numberOfPics: string[], title: string, no: number}, fileName: string) {
     // let genre;
     // if (bookForm.value.genre.length === 1) {
     //   genre = bookForm.value.genre[0];
@@ -131,27 +132,35 @@ export class ExcelService {
     //     }
     //   }
     // }
+    let numberOfPics = data.numberOfPics;
+    let title = data.title;
     let barcode;
-    if (Array.isArray(bookForm.value.barcode)) barcode = bookForm.value.barcode[0]; else barcode = bookForm.value.barcode;
-    if (bookForm.value.barcode === '') barcode = 'Does not apply';
-    let line = [
-      this.getDate(), "",
-      +bookForm.value.numberOfPics, 176985, "", "Used", "TBD", 13, 13, 1, 2, 0, "True", "3.0", "No",
-      barcode as string,
-      bookForm.value.composer,
-      bookForm.value.artist,
-      bookForm.value.conductor,
-      bookForm.value.release_title, "Vinyl", "Record",
-      bookForm.value.format,
-      bookForm.value.genre,
-      bookForm.value.label, "12\"",
-      bookForm.value.speed,
-      +bookForm.value.year, "Black",
-      bookForm.value.country, "No"
-    ];
-    for (let i = 0; i < line.length; i++) {
-      if (typeof line[i] === 'string') {
-        line[i] = line[i].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let no = data.no;
+    if (Array.isArray(recordForm.value.barcode)) barcode = recordForm.value.barcode[0]; else barcode = recordForm.value.barcode;
+    if (recordForm.value.barcode === '') barcode = 'Does not apply';
+
+    let line = new RecordData(
+      this.getDate(),
+      numberOfPics,
+      title,
+      barcode,
+      recordForm.value.composer,
+      recordForm.value.artist,
+      recordForm.value.conductor,
+      recordForm.value.release_title,
+      recordForm.value.format,
+      recordForm.value.genre,
+      recordForm.value.label,
+      recordForm.value.speed,
+      recordForm.value.year,
+      recordForm.value.country,
+      '=>',
+      no
+    );
+
+    for (let prop in line) {
+      if (typeof prop === 'string') {
+        prop = prop.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       }
     }
 

@@ -93,7 +93,9 @@ export class ResultTableComponent implements OnInit {
   recordPushContToForm(element: any, str: string) {
     let el = { [str]: element[str] };
     if (str === 'form') {
-      let newElement = { ...element }
+      let newElement = { ...element };
+      console.log(newElement);
+
       newElement.label = newElement.label.split(';')[0];
       if (newElement.barcode.length > 1) {
         newElement.barcode = newElement.barcode.split(';')[0] + ";" + newElement.barcode.split(';')[1];

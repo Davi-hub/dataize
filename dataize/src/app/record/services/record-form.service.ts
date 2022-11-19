@@ -5,7 +5,6 @@ import { FormControl, FormGroup } from '@angular/forms';
   providedIn: 'root'
 })
 export class RecordFormService {
-  numberOfPics = new FormControl(6);
   country = new FormControl("United States");
   format = new FormControl("LP");
   genre = new FormControl("");
@@ -22,7 +21,6 @@ export class RecordFormService {
 
   setRecordForm() {
     let recordForm = {
-      numberOfPics: this.numberOfPics,
       country: this.country,
       format: this.format,
       genre: this.genre,
@@ -44,7 +42,6 @@ export class RecordFormService {
     form.get('label')?.setValue('');
     form.get('genre')?.setValue('');
     form.get('year')?.setValue('');
-    form.get('numberOfPics')?.setValue(6);
     form.get('country')?.setValue('United States');
     form.get('format')?.setValue('LP');
     form.get('barcode')?.setValue('');

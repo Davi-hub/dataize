@@ -11,6 +11,8 @@ import { BookFormComponent } from 'src/app/book/book-form/book-form.component';
 export class CreateDialogComponent implements OnInit {
 
   create = false;
+  folders: string[] = [];
+  selectedFile!: string;
   f!: FormGroup
 
   constructor(
@@ -19,8 +21,10 @@ export class CreateDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.folders = this.data.folders;
+
     this.f = new FormGroup({
-      'picturesPath': new FormControl('', Validators.required)
+      'picturesPath': new FormControl('')
     });
 
     if (this.data.create) {

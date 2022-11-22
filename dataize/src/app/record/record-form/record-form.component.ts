@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import { PicturesDialogComponent } from 'src/app/shared/pictures-dialog/pictures
   templateUrl: './record-form.component.html',
   styleUrls: ['./record-form.component.css']
 })
-export class RecordFormComponent implements OnInit {
+export class RecordFormComponent implements OnInit, AfterViewInit {
 
   recordForm = new FormGroup({});
   numOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -28,6 +28,7 @@ export class RecordFormComponent implements OnInit {
   fileName = "none";
   filePath = "none";
   pictures = [];
+  picsFolderContent: string[] = [];
   selectedItem: number = NaN;
   rawText!: string;
   formatHint!: string;
@@ -100,6 +101,10 @@ export class RecordFormComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+      this.excelService.getFileNames('pictures').subscribe((folders: any) => this.picsFolderContent = folders)
+  }
+
   private _filter(value: string, options: string[]): string[] {
     const filterValue = value.toLowerCase();
     return options.filter(option => option.toLowerCase().includes(filterValue));
@@ -130,7 +135,7 @@ export class RecordFormComponent implements OnInit {
   }
 
   onCreateFileDialog(create: boolean) {
-    const dialRef = this.dialog.open(CreateDialogComponent, { data: { create: create } });
+    const dialRef = this.dialog.open(CreateDialogComponent, { data: { create: create , folders: this.picsFolderContent} });
     dialRef.afterClosed().subscribe(data => {
       if (data) {
         if (create) {

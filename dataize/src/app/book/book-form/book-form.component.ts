@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
@@ -20,7 +20,7 @@ import { FilesDialogComponent } from 'src/app/shared/files-dialog/files-dialog.c
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
-export class BookFormComponent implements OnInit {
+export class BookFormComponent implements OnInit, AfterViewInit {
   bookForm = new FormGroup({ language: new FormControl('') });
   condOptions = ["Brand New", "Like New", "Very Good", "Good", "Acceptable"]
   langOptions: string[] = ['English', 'German', 'Spanish'];
@@ -33,13 +33,14 @@ export class BookFormComponent implements OnInit {
   fileName = "none";
   filePath = "none";
   pictures = [];
+  picsFolderContent: string[] = [];
   selectedItem: number = NaN;
   items!: any;
   tempPictures!: string[];
   bookData = {no: NaN, isbn_13: "", isbn: "", date: "", price: "", customSku: "", numberOfPics: []}
-  pathCsv = environment.nodeServer + "downloadcsv";
   pathXls = environment.nodeServer + "downloadxls";
   pathTemplate = environment.nodeServer + "downloadtemplate";
+  picsDir: string[] = [];
 
   constructor(
     private bookDataService: BookDataService,
@@ -115,6 +116,10 @@ export class BookFormComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+    this.excelService.getFileNames('pictures').subscribe((folders: any) => this.picsFolderContent = folders)
+  }
+
   private _filter(value: string, options: string[]): string[] {
     const filterValue = value.toLowerCase();
 
@@ -153,29 +158,23 @@ export class BookFormComponent implements OnInit {
   }
 
   onCreateFileDialog(create: boolean) {
-    const dialRef = this.dialog.open(CreateDialogComponent, {data: {create: create}});
+    const dialRef = this.dialog.open(CreateDialogComponent, {data: {create: create, folders: this.picsFolderContent}});
     dialRef.afterClosed().subscribe(data => {
       if (data) {
         if (create) {
-          this.excelService.createFile("book", data.fileName, data.picturesPath);
+          console.log(data);
+
+          this.excelService.createFile("book", data.fileName, data.picturesPath[0]);
+        } else {
+          this.excelService.createFile("book", "", data.picturesPath[0]);
         }
       }
     });
   }
 
   onOpenFileDialog() {
-    this.excelService.getFileNames('book').pipe(
-      map(
-        (data: string[] | any) => {
-          if (data) {
-            for (let i = 0; i < data.length; i++) {
-              data[i] = data[i].split('.json')[0];
-            }
-          }
-          return data;
-        }
-      )
-    ).subscribe((data: any) => {
+    this.excelService.getFileNames('book')
+    .subscribe((data: any) => {
       const dialRef = this.dialog.open(FilesDialogComponent, { data: data });
       dialRef.afterClosed().subscribe(
         (data: {file: string, action: string}) => {
@@ -184,8 +183,6 @@ export class BookFormComponent implements OnInit {
           return;
         } else if (data.file && data.action === 'downloadXlsx') {
           this.download('downloadcsvxlsx', data.file)
-        } else if (data.file && data.action === 'downloadCsv') {
-          this.download('downloadcsvxlsx', data.file +'.csv')
         }
       });
     });
@@ -205,8 +202,6 @@ export class BookFormComponent implements OnInit {
 
   openFile() {
     this.excelService.forFileInfo('book').subscribe((data: {fileName: string} | any) => {
-      console.log(data);
-
       this.excelService.openFile('book', data.fileName);
     })
   }

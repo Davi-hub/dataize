@@ -63,7 +63,7 @@ function createFile(req, res) {
         path.join(__dirname, req.body.item, req.body.fileName + '.json'), JSON.stringify([]),
         (err) => {
             if (err) {
-                throw err;
+                console.log(err);
             } else {
                 writeConfigFile(req);
                 res.json({ 'message': 'File created!' });
@@ -104,7 +104,10 @@ async function getFileInfo(req, res) {
 }
 
 async function getFileNames(req, res) {
-    fs.readdir(path.join(__dirname, req.query.item), (err, files) => res.send(files));
+    fs.readdir(path.join(__dirname, req.query.path), (err, files) => {
+        console.log(files);
+        res.send(files)
+    });
     // res.json({ fileName: await readFileName(req) });
 }
 

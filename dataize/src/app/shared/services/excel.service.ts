@@ -168,7 +168,7 @@ export class ExcelService {
     await this.writeLine('record', line, fileName);
   }
 
-  async createFile(item: string, fileName: string, path: string) {
+  async createFile(item: string, fileName: string | null, path: string) {
     this.postToServer('createfile', item, { fileName: fileName, path: path });
   }
 
@@ -238,8 +238,8 @@ export class ExcelService {
     )
   }
 
-  getFileNames(item: string) {
-    let params = new HttpParams().set('item', item);
+  getFileNames(path: string) {
+    let params = new HttpParams().set('path', path);
     return this.http.get(environment.nodeServer + 'getfilenames', { params: params });
   }
 
@@ -250,7 +250,6 @@ export class ExcelService {
           let newRes = await res;
           this.getFileInfo(item);
           this.getMatSnackBar(newRes.message);
-
         },
         err => {
           this.getMatSnackBar('Error!');

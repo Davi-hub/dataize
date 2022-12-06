@@ -1,0 +1,22 @@
+.picture-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+}
+
+img {
+  width: 160px;
+  background-color: inherit;
+  padding: 10px;
+}
+
+.no-selected {
+  background-color: white;
+}
+
+.select {
+  background-color: yellow;
+}
+
+.selected {
+  background-color: gray;
+}

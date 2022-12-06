@@ -1,0 +1,52 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        List of Records
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <mat-card class="example-card" *ngFor="let t of table, let i = index">
+        <img mat-card-md-image [src]="t.numberOfPics ? dir + path + '/' + t.numberOfPics[0] : ''">
+        <div class="no">{{t.no}}.</div>
+        <div class="container">
+          <mat-card-title-group>
+            <mat-card-title>
+              <span *ngIf="t.artist">{{t.artist}}: </span>
+              <span *ngIf="t.release_title">{{t.release_title}} </span>
+              <span *ngIf="t.year">({{t.year}})</span>
+            </mat-card-title>
+            <mat-card-subtitle><b>Label: </b>{{t.label}} <span *ngIf="t.composer"><b>Composer:</b>{{t.composer}} </span><span *ngIf="t.conductor"><b>Conductor: </b> {{t.conductor}}</span></mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content>
+            <div class="in-mat-card-content">
+              <div>
+                <div class="inner-mat-car-container">
+                  <mat-card class="inner-mat-card"><b>Number of pictures:</b> {{t.numberOfPics.length}}</mat-card>
+                  <mat-card class="inner-mat-card"><b>Barcode:</b> {{t.barcode}}</mat-card>
+                  <mat-card class="inner-mat-card"><b>Country:</b> {{t.country}}</mat-card>
+                  <mat-card class="inner-mat-card"><b>Format:</b> {{t.format}}</mat-card>
+                  <mat-card class="inner-mat-card"><b>Genre:</b> {{t.genre}}</mat-card>
+                  <mat-card class="inner-mat-card"><b>Speed:</b> {{t.speed}}</mat-card>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </div>
+        <mat-card-actions>
+          <div>
+            <button mat-icon-button (click)="onClick(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+          <div>
+            <button mat-icon-button (click)="onDelete(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+  </mat-expansion-panel>
+</mat-accordion>

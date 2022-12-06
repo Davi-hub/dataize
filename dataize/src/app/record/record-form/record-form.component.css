@@ -1,0 +1,59 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem;
+}
+
+div {
+  margin-bottom: 1rem;
+}
+
+.chip-list {
+  width: 100%;
+}
+
+.container-two-item {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.3rem;
+}
+
+.container-three-item {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 0.3rem
+}
+
+.container-six-item {
+  display: grid;
+  grid-template-columns: 8rem 8rem 16rem 8rem 8rem auto;
+  column-gap: 0.3rem
+}
+
+a, button {
+  width: fit-content;
+  margin: 0 0.5rem;
+}
+
+mat-chip {
+  background-color: white;
+}
+.button-container {
+  margin-bottom: 5rem;
+}
+
+span {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgb(228, 228, 228);
+}
+
+.bottom-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* #pics-input {
+  display: none;
+} */

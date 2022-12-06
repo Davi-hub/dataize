@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Files</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-selection-list #filesOptions [multiple]="false">
+    <mat-list-option *ngFor="let file of this.files" (click)="onClick(file)">
+      {{file}}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions align="" *ngIf="!aYS">
+  <div class="button-container">
+    <button mat-raised-button mat-dialog-close>
+      Cancel
+    </button>
+    <button [disabled]="!selectedFile" mat-raised-button color="warn" (click)="aYS=true">
+      Delete
+    </button>
+    <button [disabled]="!selectedFile" mat-raised-button color="accent"
+      [mat-dialog-close]="{file: selectedFile, action: 'downloadXlsx'}">
+      <mat-icon>file_download</mat-icon> xlsx
+    </button>
+    <button [disabled]="!selectedFile" mat-raised-button color="primary"
+      [mat-dialog-close]="{file: selectedFile, action: 'open'}">
+      Open
+    </button>
+  </div>
+</mat-dialog-actions>
+<mat-dialog-actions align="end" *ngIf="aYS">
+  <div class="ays-container">
+    <h2>
+      Are you sure?
+    </h2>
+    <div class="button-container">
+      <button mat-raised-button color="primary" [mat-dialog-close]="{file: selectedFile, action: 'delete'}">
+        Yes
+      </button>
+      <button mat-raised-button (click)="aYS=false">
+        No
+      </button>
+    </div>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,175 @@
+<form [formGroup]="recordForm" (ngSubmit)="onRecordForm()" (keydown.enter)="$event.preventDefault()">
+
+  <div class="container-two-item">
+    <mat-form-field appearance="fill" id="artist">
+      <mat-label>Artist</mat-label>
+      <input type="text" matInput formControlName="artist" #artist>
+      <button type="button" *ngIf="artist.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('artist', artist)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button type="button" *ngIf="artist.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="onSearchInTitle(artist.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="release_title">
+      <mat-label>Release Title</mat-label>
+      <input type="text" matInput formControlName="release_title" #release_title>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="release_title.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('release_title', release_title)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button type="button" *ngIf="release_title.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="onSearchInTitle(release_title.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="container-three-item">
+    <mat-form-field appearance="fill" id="label">
+      <mat-label>Label</mat-label>
+      <input type="text" matInput formControlName="label" #label>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="label.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('label', label)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button type="button" *ngIf="label.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="onSearchInAuthor(label.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="composer">
+      <mat-label>Composer</mat-label>
+      <input type="text" matInput formControlName="composer" #composer>
+      <button type="button" *ngIf="composer.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('composer', composer)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button type="button" *ngIf="composer.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="onSearchInTitle(composer.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="composer">
+      <mat-label>Conductor</mat-label>
+      <input type="text" matInput formControlName="conductor" #conductor>
+      <button type="button" *ngIf="conductor.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('conductor', conductor)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button type="button" *ngIf="conductor.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="onSearchInTitle(conductor.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field class="chip-list" appearance="outline">
+      <mat-label>Genre</mat-label>
+      <mat-chip-list #chipList multiple aria-label="Genre selection" formControlName="genre">
+        <mat-chip *ngFor="let genre of genres" [selected]="genre" [value]="genre">
+          {{genre}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+
+  <div class="container-six-item">
+    <mat-form-field appearance="fill" id="button">
+      <mat-label>Pictures</mat-label>
+      <input type="text" matInput id="pics-input" readonly [value]="recordData.numberOfPics ? recordData.numberOfPics.length : 0">
+      <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="onNumbOfPictures()">
+        <mat-icon>add_photo_alternate</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="year">
+      <mat-label>Year</mat-label>
+      <input type="number" maxlength="4" matInput formControlName="year" #year>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="year.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('year', year)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="country">
+      <mat-label>Country/Region of Manufacture</mat-label>
+      <input type="text" matInput formControlName="country" #country [matAutocomplete]="auto">
+      <button type="button" *ngIf="country.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('country', country)">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-hint>{{countryHint}}</mat-hint>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let countryOption of filteredCountryOptions | async" [value]="countryOption">
+          {{countryOption}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" id="format">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="format">
+        <mat-option value="">none</mat-option>
+        <mat-option value="LP">LP</mat-option>
+        <mat-option value="Double LP">Double LP</mat-option>
+        <mat-option value="Triple LP">Triple LP</mat-option>
+        <mat-option value="Single">Single</mat-option>
+        <mat-option value="EP">EP</mat-option>
+        <mat-option value="Box Set">Box Set</mat-option>
+      </mat-select>
+      <mat-hint>{{formatHint}}</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="fill" id="speed">
+      <mat-label>speed</mat-label>
+      <mat-select name="speed" id="speed" matNativeControl formControlName="speed">
+        <mat-option value="">none</mat-option>
+        <mat-option value="16 RPM">16 RPM</mat-option>
+        <mat-option value="33 RPM">33 RPM</mat-option>
+        <mat-option value="45 RPM">45 RPM</mat-option>
+        <mat-option value="78 RPM">78 RPM</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Barcode</mat-label>
+      <input type="text" matInput formControlName="barcode" #barcode>
+      <mat-error>Required!</mat-error>
+      <button type="button" *ngIf="barcode.value !=''" matSuffix mat-icon-button aria-label="Clear"
+        (click)="clearInput('barcode', barcode)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="container-two-item">
+
+  </div>
+  <div class="bottom-line">
+    <div class="info-container">
+      <span><b>Filename: </b>{{fileName}}</span>
+      <span>
+        <b>Path to Pictures: </b>
+        {{filePath}}
+        <button type="button" mat-button (click)="onCreateFileDialog(false)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </span>
+    </div>
+    <div class="button-container">
+      <button type="button" mat-raised-button color="warn" (click)="onClear()">Clear</button>
+      <button type="button" mat-raised-button color="accent" (click)="onCreateFileDialog(true)">Create</button>
+      <button type="button" mat-raised-button (click)="onOpenFileDialog()">Files</button>
+      <button type="submit" mat-raised-button color="primary"
+        [innerText]="selectedItem ? 'Edit Record' : 'Add Record'"></button>
+    </div>
+  </div>
+</form>

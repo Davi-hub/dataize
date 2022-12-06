@@ -1,0 +1,20 @@
+<form style="display: flex; flex-direction: column;" [formGroup]="f">
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field *ngIf="create">
+      <ng-container>
+        <input type="text" matInput placeholder="File Name" formControlName="fileName">
+      </ng-container>
+    </mat-form-field>
+    <h4>Pictures folder:</h4>
+    <mat-selection-list #filesOptions [multiple]="false" formControlName="picturesPath">
+      <mat-list-option *ngFor="let folder of this.folders" [value]="folder">
+        {{folder}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-dialog-content>
+  <mat-dialog-actions style="justify-content: space-around;">
+    <button [disabled]="this.f.invalid" type="button" mat-raised-button color="accent"
+      [mat-dialog-close]="f.value">OK</button>
+    <button type="button" mat-raised-button [mat-dialog-close]="false">Cancel</button>
+  </mat-dialog-actions>
+</form>

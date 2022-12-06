@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Pictures</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="picture-container">
+    <div *ngFor="let picture of pictures, let i = index" [class]=picture.class (click)="onPicture(picture)">
+      <img [src]=picture.src>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onOk()">Ok</button>
+</mat-dialog-actions>

@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+
+.mat-column-year,
+.mat-column-artist,
+.mat-column-label,
+.mat-column-format,
+.mat-column-barcode {
+  background-color: rgb(232, 232, 232);
+}
+
+.mat-column-title,
+.mat-column-release_title,
+.mat-column-genre,
+.mat-column-country,
+.mat-column-form {
+  background-color: rgb(240, 240, 240);
+}
+
+th[mat-header-cell] {
+  text-align: center;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: center;
+}
+
+td:hover {
+  background-color: rgb(169, 169, 169);
+  cursor: pointer;
+}
